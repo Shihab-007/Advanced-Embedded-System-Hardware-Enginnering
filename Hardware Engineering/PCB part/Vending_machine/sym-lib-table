@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Vending_machine")(type "KiCad")(uri "${KIPRJMOD}/Vending_machine.kicad_sym")(options "")(descr ""))
+  (lib (name "FPGA_project_parts")(type "Legacy")(uri "${KIPRJMOD}/FPGA_project_parts (1)/FPGA_project_parts/symbols/FPGA_project_parts.lib")(options "")(descr ""))
+)
