@@ -1,0 +1,65 @@
+(kicad_sch (version 20230121) (generator eeschema)
+
+  (uuid 5eef0ef6-8220-4a84-a282-7901118867cd)
+
+  (paper "A4")
+
+  (lib_symbols
+  )
+
+
+  (sheet (at 22.86 33.02) (size 80.01 44.45) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 57faf2fb-bfb3-438e-a2f3-9ced0c8b7906)
+    (property "Sheetname" "Power" (at 22.86 32.3084 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "Power.kicad_sch" (at 22.86 78.0546 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "Vending_machine"
+        (path "/5eef0ef6-8220-4a84-a282-7901118867cd" (page "2"))
+      )
+    )
+  )
+
+  (sheet (at 110.49 33.02) (size 76.2 44.45) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 5bca7b50-9cc8-47e7-a5a4-83ab8cb48451)
+    (property "Sheetname" "FPGA_util" (at 110.49 32.3084 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "FPGA_util.kicad_sch" (at 110.49 78.0546 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "Vending_machine"
+        (path "/5eef0ef6-8220-4a84-a282-7901118867cd" (page "3"))
+      )
+    )
+  )
+
+  (sheet (at 190.5 33.02) (size 82.55 45.72) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid 5f0d53dc-e313-4deb-b93a-3de22851ab54)
+    (property "Sheetname" "FPGA_ext" (at 190.5 32.3084 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "FPGA_ext.kicad_sch" (at 190.5 79.3246 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "Vending_machine"
+        (path "/5eef0ef6-8220-4a84-a282-7901118867cd" (page "4"))
+      )
+    )
+  )
+
+  (sheet_instances
+    (path "/" (page "1"))
+  )
+)
