@@ -2,11 +2,11 @@
 #include <PubSubClient.h>
 
 // Wi-Fi credentials
-const char* ssid = "Neaz";
-const char* password = "Neaz145126";
+const char* ssid = "AndroidHotspot2823";
+const char* password = "chldbstjr";
 
 // MQTT broker configuration
-const char* mqttServer = "192.168.109.100";
+const char* mqttServer = "192.168.82.100";
 const int mqttPort = 1883;
 const char* mqttClientId = "ArduinoClient2";
 const char* mqttTopicControl = "control";

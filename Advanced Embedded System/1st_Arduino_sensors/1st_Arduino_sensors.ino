@@ -3,11 +3,11 @@
 #include <PubSubClient.h>
 
 // Wi-Fi credentials
-const char* ssid = "BKA_Ueberwachungswagen_07";
-const char* password = "Fliesentischbesitzer_1337";
+const char* ssid = "AndroidHotspot2823";
+const char* password = "chldbstjr";
 
 // MQTT broker configuration
-const char* mqttServer = "192.168.2.93";
+const char* mqttServer = "192.168.82.100";
 const int mqttPort = 1883;
 const char* mqttTopicGas = "sensor/gas";
 const char* mqttTopicFlame = "sensor/flame";
