@@ -1,0 +1,83 @@
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity VendingMachine_TB is
+end entity VendingMachine_TB;
+
+architecture behavior of VendingMachine_TB is
+    constant CLK_PERIOD : time := 10 ns;
+    
+    signal clk : std_logic := '0';
+    signal reset : std_logic := '0';
+    signal coin_10c, coin_20c, coin_50c, coin_1euro, coin_2euro : std_logic := '0';
+    signal dispense, refund_10c, refund_20c, refund_50c, refund_1euro, refund_2euro : std_logic;
+
+begin
+
+    uut : entity work.VendingMachine
+        port map (
+            clk => clk,
+            reset => reset,
+            coin_10c => coin_10c,
+            coin_20c => coin_20c,
+            coin_50c => coin_50c,
+            coin_1euro => coin_1euro,
+            coin_2euro => coin_2euro,
+            dispense => dispense,
+            refund_10c => refund_10c,
+            refund_20c => refund_20c,
+            refund_50c => refund_50c,
+            refund_1euro => refund_1euro,
+            refund_2euro => refund_2euro
+        );
+
+    clk_process : process
+    begin
+        while now < 1000 ns loop
+            clk <= '0';
+            wait for CLK_PERIOD / 2;
+            clk <= '1';
+            wait for CLK_PERIOD / 2;
+        end loop;
+        wait;
+    end process clk_process;
+
+    stim_process : process
+    begin
+        reset <= '1';
+        wait for CLK_PERIOD * 2;
+        reset <= '0';
+        
+        -- Scenario 1: Insert 20 cents (tea price), expect dispense signal to be '1'
+        coin_20c <= '1';
+        wait for CLK_PERIOD;
+        
+        -- Scenario 2: Insert 50 cents (coffee price), expect dispense signal to be '1'
+        coin_50c <= '1';
+        wait for CLK_PERIOD;
+        
+        -- Scenario 3: Insert 1 euro (bread price), expect dispense signal to be '1'
+        coin_1euro <= '1';
+        wait for CLK_PERIOD;
+        
+        -- Scenario 4: Insert 10 cents, expect dispense signal to be '0' and refund 10 cents
+        coin_10c <= '1';
+        wait for CLK_PERIOD;
+        
+        -- Scenario 5: Insert 1 euro, expect dispense signal to be '0' and refund 80 cents
+        coin_1euro <= '1';
+        coin_20c <= '1';
+        wait for CLK_PERIOD;
+        
+        -- Scenario 6: Insert 2 euros, expect dispense signal to be '0' and refund 1 euro 80 cents
+        coin_2euro <= '1';
+        coin_50c <= '1';
+        coin_20c <= '1';
+        wait for CLK_PERIOD;
+        
+        wait;
+    end process stim_process;
+
+end architecture behavior;

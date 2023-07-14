@@ -1,0 +1,137 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity VendingMachine is
+    port (
+        clk : in std_logic;
+        reset : in std_logic;
+        coin_10c : in std_logic;
+        coin_20c : in std_logic;
+        coin_50c : in std_logic;
+        coin_1euro : in std_logic;
+        coin_2euro : in std_logic;
+        dispense : out std_logic;
+        refund_10c : out std_logic;
+        refund_20c : out std_logic;
+        refund_50c : out std_logic;
+        refund_1euro : out std_logic;
+        refund_2euro : out std_logic
+    );
+end entity VendingMachine;
+
+architecture behavior of VendingMachine is
+    signal amount_10c, amount_20c, amount_50c, amount_1euro, amount_2euro : unsigned(7 downto 0);
+    signal total_amount : unsigned(7 downto 0);
+    signal price_tea, price_coffee, price_bread : unsigned(7 downto 0);
+    signal refund_amount : unsigned(7 downto 0);
+
+begin
+    -- Prices of products
+    price_tea <= to_unsigned(20, 8);       -- 20 cents
+    price_coffee <= to_unsigned(50, 8);    -- 50 cents
+    price_bread <= to_unsigned(100, 8);    -- 1 euro
+
+    process (clk, reset)
+    begin
+        if reset = '1' then
+            amount_10c <= (others => '0');
+            amount_20c <= (others => '0');
+            amount_50c <= (others => '0');
+            amount_1euro <= (others => '0');
+            amount_2euro <= (others => '0');
+            total_amount <= (others => '0');
+            refund_amount <= (others => '0');
+            dispense <= '0';
+            refund_10c <= '0';
+            refund_20c <= '0';
+            refund_50c <= '0';
+            refund_1euro <= '0';
+            refund_2euro <= '0';
+
+        elsif rising_edge(clk) then
+            -- Accumulate coin amounts
+            if coin_10c = '1' then
+                amount_10c <= amount_10c + 1;
+            end if;
+
+            if coin_20c = '1' then
+                amount_20c <= amount_20c + 1;
+            end if;
+
+            if coin_50c = '1' then
+                amount_50c <= amount_50c + 1;
+            end if;
+
+            if coin_1euro = '1' then
+                amount_1euro <= amount_1euro + 1;
+            end if;
+
+            if coin_2euro = '1' then
+                amount_2euro <= amount_2euro + 1;
+            end if;
+
+            -- Calculate total amount
+            total_amount <=
+                to_unsigned(to_integer(unsigned(amount_10c)) * 10, 8) +
+                to_unsigned(to_integer(unsigned(amount_20c)) * 20, 8) +
+                to_unsigned(to_integer(unsigned(amount_50c)) * 50, 8) +
+                to_unsigned(to_integer(unsigned(amount_1euro)) * 100, 8) +
+                to_unsigned(to_integer(unsigned(amount_2euro)) * 200, 8);
+
+            -- Check if total amount equals any product price
+            if total_amount = price_tea or total_amount = price_coffee or total_amount = price_bread then
+                dispense <= '1';
+                refund_10c <= '0';
+                refund_20c <= '0';
+                refund_50c <= '0';
+                refund_1euro <= '0';
+                refund_2euro <= '0';
+            elsif total_amount > price_tea or total_amount > price_coffee or total_amount > price_bread then
+                dispense <= '0';
+                -- Calculate refund amount
+                refund_amount <= total_amount - price_tea;
+                -- Determine refund denominations
+                if refund_amount >= to_unsigned(200, 8) then
+                    refund_2euro <= '1';
+                    refund_amount <= refund_amount - to_unsigned(200, 8);
+                else
+                    refund_2euro <= '0';
+                end if;
+                if refund_amount >= to_unsigned(100, 8) then
+                    refund_1euro <= '1';
+                    refund_amount <= refund_amount - to_unsigned(100, 8);
+                else
+                    refund_1euro <= '0';
+                end if;
+                if refund_amount >= to_unsigned(50, 8) then
+                    refund_50c <= '1';
+                    refund_amount <= refund_amount - to_unsigned(50, 8);
+                else
+                    refund_50c <= '0';
+                end if;
+                if refund_amount >= to_unsigned(20, 8) then
+                    refund_20c <= '1';
+                    refund_amount <= refund_amount - to_unsigned(20, 8);
+                else
+                    refund_20c <= '0';
+                end if;
+                if refund_amount >= to_unsigned(10, 8) then
+                    refund_10c <= '1';
+                    refund_amount <= refund_amount - to_unsigned(10, 8);
+                else
+                    refund_10c <= '0';
+                end if;
+            else
+                dispense <= '0';
+                refund_10c <= '0';
+                refund_20c <= '0';
+                refund_50c <= '0';
+                refund_1euro <= '0';
+                refund_2euro <= '0';
+            end if;
+
+        end if;
+    end process;
+
+end architecture behavior;
